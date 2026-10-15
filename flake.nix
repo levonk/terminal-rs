@@ -85,16 +85,16 @@
               pkgs.wayland
               pkgs.vulkan-loader
               pkgs.libGL
-              pkgs.xorg.libX11
-              pkgs.xorg.libXcursor
-              pkgs.xorg.libXi
-              pkgs.xorg.libxcb
+              pkgs.libx11
+              pkgs.libxcursor
+              pkgs.libxi
+              pkgs.libxcb
             ];
           };
         }
       );
 
-      overlays.default = final: prev: {
+      overlays.default = final: _prev: {
         terminal-rs = final.callPackage ./package.nix { };
       };
     };

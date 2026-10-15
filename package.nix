@@ -9,7 +9,10 @@
   wayland,
   vulkan-loader,
   libGL,
-  xorg,
+  libx11,
+  libxcursor,
+  libxi,
+  libxcb,
 }:
 
 let
@@ -35,10 +38,10 @@ rustPlatform.buildRustPackage {
     wayland
     vulkan-loader
     libGL
-    xorg.libX11
-    xorg.libXcursor
-    xorg.libXi
-    xorg.libxcb
+    libx11
+    libxcursor
+    libxi
+    libxcb
   ];
 
   postInstall = ''
