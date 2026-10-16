@@ -180,6 +180,56 @@ chart anti-aliasing (default 4 on macOS), `TR_VIBRANCY=0` disables the transluce
 `terminal-rs.app`; `scripts/check-macos-cross.sh` compiles and lints the whole workspace for
 aarch64-apple-darwin from Linux (zig as the C cross-compiler; linking needs the macOS SDK).
 
+### Nix
+
+The project provides an optional Nix flake for users who already use Nix. The
+flake builds the native GUI binary from source on macOS (Apple Silicon and
+Intel) and Linux:
+
+```bash
+# Run the latest source from the default branch (launches the GUI)
+nix run github:levonk/terminal-rs
+
+# Install into your profile
+nix profile add github:levonk/terminal-rs
+
+# Build / develop
+nix build github:levonk/terminal-rs
+nix develop github:levonk/terminal-rs
+```
+
+The flake exposes `packages.<system>.default` (alias: `terminal-rs`),
+`apps.<system>.default`, `devShells.<system>.default`, and `overlays.default`.
+On Linux the binary's ELF rpath is extended with the Vulkan loader, Wayland,
+libGL and libxkbcommon so it can find the display drivers dlopen()ed at
+runtime. `x86_64-darwin` builds against a pinned stable nixpkgs branch
+(`nixpkgs-26.05-darwin`) because nixpkgs-unstable no longer supports Intel
+macOS.
+
+Non-flake Nix works too: `nix-build` uses `default.nix` (a flake-compat shim
+pinned to the same nixpkgs revisions as `flake.lock`).
+
+### Devbox
+
+For a reproducible development environment, use Devbox:
+
+```bash
+# Install Devbox first (if not already installed)
+curl -fsSL https://get.jetify.dev/devbox | bash
+
+# Enter the environment (Rust toolchain, pkg-config, cmake, sqlite, act)
+devbox shell
+
+# Build the project
+devbox run build
+```
+
+Or install Devbox via Homebrew:
+
+```bash
+brew install jetify-com/devbox/devbox
+```
+
 ## Brokerage setup (SnapTrade)
 
 Everything happens in **Settings › Brokerage**, with no commands needed. Open it from the sidebar
