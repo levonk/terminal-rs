@@ -54,6 +54,9 @@ jobs:
           actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          # Full history — flake-compat (default.nix) evaluates revCount,
+          # which fails on checkout's default shallow clone.
+          fetch-depth: 0
 
       - name: Install Nix
         # DeterminateSystems/nix-installer-action v23
